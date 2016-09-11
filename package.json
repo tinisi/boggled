@@ -1,7 +1,7 @@
 {
-  "name": "es6-app-seed",
+  "name": "boggled",
   "version": "0.0.1",
-  "description": "A simple seed project for getting babel ES6 and webpack set up for a web application.",
+  "description": "A Boggle solving, full stack web application.",
   "main": "./dist/app.min.js",
   "scripts": {
     "test": "jasmine",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tinisi/es6-web-app-seed.git"
+    "url": "git+https://github.com/tinisi/boggled.git"
   },
   "author": "Tinisi",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/tinisi/es6-web-app-seed/issues"
+    "url": "https://github.com/tinisi/boggled/issues"
   },
-  "homepage": "https://github.com/tinisi/es6-web-app-seed#readme",
+  "homepage": "https://github.com/tinisi/boggled#readme",
   "devDependencies": {
     "babel-cli": "^6.10.1",
     "babel-core": "^6.10.4",
@@ -30,16 +30,18 @@
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "^0.23.1",
     "ejs-loader": "^0.3.0",
-    "es6-lib-seed": "git@github.com:tinisi/es6-lib-seed.git#v0.0.2-experimental",
     "file-loader": "^0.9.0",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.22.0",
-    "jasmine": "^2.4.1",
+    "jasmine": "2.4.1",
     "postcss-cssnext": "^2.7.0",
     "postcss-loader": "^0.9.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.13.1"
+  },
+  "dependencies": {
+    "boggLib": "git@github.com:tinisi/bogglib.git#v0.0.3-alpha"    
   }
 }

@@ -1,4 +1,3 @@
-import awesome from 'es6-lib-seed';
 
 class App {
 
@@ -28,8 +27,8 @@ class App {
   }
 
   printAwesomeMessage(msg) {
-    let awesomeMessage = awesome(msg);
-    this.messageContainer.textContent = awesomeMessage;
+    // let awesomeMessage = awesome(msg);
+    // this.messageContainer.textContent = awesomeMessage;
   }
 
 }
