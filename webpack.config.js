@@ -4,8 +4,6 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var cssnext = require('postcss-cssnext');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-// TODO: figure this out (can't tell if it is working)
-var cssnano = require('cssnano');
 
 var isProduction = (process.env.NODE_ENV === 'production');
 
@@ -29,9 +27,8 @@ var webpackConfig = {
         inline: true,
         hot: true,
         inject: 'head',
-        // hash: true, // not needed when file name has [hash]
         filename: 'index.html',
-        template: 'src/index.ejs',
+        template: 'src/index.html',
         outputPath: path.join(__dirname, 'dist')
     })
   ],
@@ -48,10 +45,6 @@ var webpackConfig = {
       {
         loader: 'url?limit=10000&name=resources/img/[name].[hash].[ext]',
         include: path.join(__dirname, 'src/resources/img')
-      },
-      {
-        test: /\.ejs$/,
-        loader: 'ejs-loader'
       },
       {
         test: /\.html$/,
@@ -98,10 +91,6 @@ if ( isProduction ) {
       root: process.cwd()
     })
   );
-  // TODO: figure this out (can't tell if it is working)
-  // webpackConfig.postcss = function () {
-  //   return [cssnano];
-  // }
 
 };
 
