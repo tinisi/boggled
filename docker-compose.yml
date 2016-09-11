@@ -13,6 +13,8 @@ services:
         - "80:80"
       links:
         - "api"
-      volumes:
-        - ./dist:/usr/share/nginx/html
+      # NOTE: this must match the copy command in Dockerfile
+      # should override the source to make dev easier
+      # volumes:
+      #   - ./dist:/usr/share/nginx/html
 
