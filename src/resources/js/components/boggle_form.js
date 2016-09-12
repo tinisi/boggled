@@ -28,6 +28,21 @@ class BoggleForm {
       self.sendBoggleBoardToServer(self.boggleBoard.value);
     }
     this.goButton.addEventListener('click', goHandler);
+
+    let focusHandler = function(e) {
+      let classes = e.target.classList;
+      classes.remove('board');
+      classes.add('focused-board');
+    }
+    this.boggleBoard.addEventListener('focus', focusHandler);
+
+    let blurHandler = function(e) {
+      let classes = e.target.classList;
+      classes.remove('focused-board');
+      classes.add('board');
+    }
+    this.boggleBoard.addEventListener('blur', blurHandler);
+
   }
 
   sendBoggleBoardToServer(board) {
@@ -36,6 +51,7 @@ class BoggleForm {
     // TODO: having issues in tests with this, it is defined by
     // webpack, which is NOT in pipeline when running jasmin specs
     const apiUrl = boggled.env.API_URL;
+
     let self = this;
     fetch(apiUrl + '/api/parse_scoring_words', {
         method: 'POST',
@@ -46,12 +62,10 @@ class BoggleForm {
         body: JSON.stringify(parseTextArea(board))
       })
       .then(function(response) {
-        console.log('raw response from server: ', response);
         return response.text()
       }).then(function(body) {
         let parsedBody = JSON.parse(body);
         self.displayResults(parsedBody);
-        console.log('body: ', body);
       });
   }
 
@@ -64,9 +78,11 @@ class BoggleForm {
       for ( let word of scoringWords ) {
         let item = document.createElement('li');
         item.innerHTML = word;
-        list.appendChild(item)
+        list.appendChild(item);
       }
       this.scoringWordsContainer.appendChild(list);  
+    } else {
+      this.scoringWordsContainer.innerHTML = 'No scoring words found!';
     }
   }
 

@@ -1,6 +1,16 @@
 
+/*
+  TODO: this isn't quite working right,
+  some sort of webpack or cssnext issue.
+  I would expect these to be available in other
+  stylesheets, but they do not appear to be.
+ */
 :root {
   --mainColor: #71a5d4;
+}
+
+body {
+  font-family: Sans-Serif;
 }
 
 .header {
