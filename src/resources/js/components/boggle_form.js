@@ -17,6 +17,7 @@ class BoggleForm {
     this.root = this.parentEl.querySelector('#app');
     this.goButton = this.parentEl.querySelector('#get-scoring-words');
     this.boggleBoard = this.parentEl.querySelector('#boggle-board');
+    this.scoringWordsContainer = this.parentEl.querySelector('#scoring-words');
 
     // get some css for this components (ditto here, ideally this would be in same folder)
     require('../../styles/boogle_form.css');
@@ -35,7 +36,7 @@ class BoggleForm {
     // TODO: having issues in tests with this, it is defined by
     // webpack, which is NOT in pipeline when running jasmin specs
     const apiUrl = boggled.env.API_URL;
-
+    let self = this;
     fetch(apiUrl + '/api/parse_scoring_words', {
         method: 'POST',
         headers: {
@@ -48,8 +49,25 @@ class BoggleForm {
         console.log('raw response from server: ', response);
         return response.text()
       }).then(function(body) {
+        let parsedBody = JSON.parse(body);
+        self.displayResults(parsedBody);
         console.log('body: ', body);
       });
+  }
+
+  displayResults(scoringWords) {
+    // first wipe out whatever was in there
+    this.scoringWordsContainer.innerHTML = '';
+    // and if there are any scoring words, display them
+    if ( scoringWords.length ) {
+      let list = document.createElement('ul');
+      for ( let word of scoringWords ) {
+        let item = document.createElement('li');
+        item.innerHTML = word;
+        list.appendChild(item)
+      }
+      this.scoringWordsContainer.appendChild(list);  
+    }
   }
 
 }
