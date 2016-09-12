@@ -1,9 +1,9 @@
 
-var boggLib = require('boggLib').default;
+var boggLib = require('bogglib').default;
 
 var parseScoringWords = function(matrix) {
-  console.log(matrix);
-  return boggLib.scoringWords();
+  var possibleWords = boggLib.possibleWords(matrix);
+  return boggLib.scoringWords(possibleWords);
 }
 
 module.exports = parseScoringWords;

@@ -36,14 +36,13 @@ class BoggleForm {
     // webpack, which is NOT in pipeline when running jasmin specs
     const apiUrl = boggled.env.API_URL;
 
-    console.log('contents of textarea: ', board);
     fetch(apiUrl + '/api/parse_scoring_words', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify([['A','B','C'],['A','B','C'],['A','B','C']])
+        body: JSON.stringify(parseTextArea(board))
       })
       .then(function(response) {
         console.log('raw response from server: ', response);
@@ -53,6 +52,22 @@ class BoggleForm {
       });
   }
 
+}
+
+// private helpers
+
+// this will turn the multiline free text area
+// into an array of arrays, ready to be sent to server
+function parseTextArea(text) {
+  let matrix = [];
+  let lines = text.split(/[\r\n]/gm);
+  for ( let line of lines ) {
+    // remove all other whitespace
+    let cleanedLine = line.replace(/\s/g, '');
+    let chars = [...cleanedLine];
+    matrix.push(chars);
+  }
+  return matrix;
 }
 
 export default BoggleForm;
