@@ -4,10 +4,9 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var cssnext = require('postcss-cssnext');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
-// TODO: figure this out (can't tell if it is working)
-var cssnano = require('cssnano');
 
 var isProduction = (process.env.NODE_ENV === 'production');
+var apiUrl = (isProduction ? '' : 'http://localhost:3000');
 
 var webpackConfig = {
   entry: [
@@ -29,10 +28,14 @@ var webpackConfig = {
         inline: true,
         hot: true,
         inject: 'head',
-        // hash: true, // not needed when file name has [hash]
         filename: 'index.html',
-        template: 'src/index.ejs',
+        template: 'src/index.html',
         outputPath: path.join(__dirname, 'dist')
+    }),
+    new webpack.DefinePlugin({
+      'boggled.env':{
+        'API_URL': JSON.stringify(apiUrl)
+      }
     })
   ],
   module: {
@@ -50,10 +53,6 @@ var webpackConfig = {
         include: path.join(__dirname, 'src/resources/img')
       },
       {
-        test: /\.ejs$/,
-        loader: 'ejs-loader'
-      },
-      {
         test: /\.html$/,
         loader: "html-loader",
         include: path.join(__dirname, 'src')
@@ -69,7 +68,8 @@ var webpackConfig = {
     inject: 'head',
     historyApiFallback: true,
     entry: 'app',
-    port: 5000
+    port: 5000,
+    headers: { "Access-Control-Allow-Origin": "*" }
   },
   postcss: function () {
     return [cssnext];
@@ -98,10 +98,6 @@ if ( isProduction ) {
       root: process.cwd()
     })
   );
-  // TODO: figure this out (can't tell if it is working)
-  // webpackConfig.postcss = function () {
-  //   return [cssnano];
-  // }
 
 };
 

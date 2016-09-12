@@ -1,0 +1,38 @@
+
+:root {
+  --mainColor: #71a5d4;
+  --focusColor: #ffffff;
+  --boardColor: #cccccc;
+  --borderColor: #eeeeee;
+}
+
+.button {
+  background-color: var(--mainColor);
+  border: none;
+  color: white;
+  padding: 12px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#boggle-board {
+  width: 120px;
+  height: 120px;
+  border: 3px solid var(--borderColor);
+  font-size: 1.5em;
+}
+
+.focused-board {
+  background-color: var(--focusColor);
+}
+
+.board {
+  background-color: var(--boardColor);
+}
+
+#scoring-words {
+  padding-top: 10px;
+  font-size: 1.25em;
+}

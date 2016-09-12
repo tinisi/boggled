@@ -1,3 +1,4 @@
+
 import App from '../src/resources/js/app';
 
 describe('App', () => {
