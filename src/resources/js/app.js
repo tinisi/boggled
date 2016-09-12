@@ -1,4 +1,7 @@
 
+// this will be empty string for prod, http://localhost:3000 for dev
+const apiUrl = boggled.env.API_URL;
+
 class App {
 
   init() {
@@ -20,7 +23,7 @@ class App {
 
   sendBoggleBoardToServer(board) {
     console.log('contents of textarea: ', board);
-    fetch('/api/users')
+    fetch(apiUrl + '/api/users')
       .then(function(response) {
         console.log('raw response from server: ', response);
         return response.text()

@@ -14,6 +14,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// TODO: this is not appropriate for production
+// this header should only be set for NODE_ENV of develop
+// this will allow webpack dev server on port 5000 to hit this server on port 3000
+// not needed when running in docker, thanks to nginx proxy...
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));

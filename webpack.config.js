@@ -6,6 +6,7 @@ var cssnext = require('postcss-cssnext');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var isProduction = (process.env.NODE_ENV === 'production');
+var apiUrl = (isProduction ? '' : 'http://localhost:3000');
 
 var webpackConfig = {
   entry: [
@@ -30,6 +31,11 @@ var webpackConfig = {
         filename: 'index.html',
         template: 'src/index.html',
         outputPath: path.join(__dirname, 'dist')
+    }),
+    new webpack.DefinePlugin({
+      'boggled.env':{
+        'API_URL': JSON.stringify(apiUrl)
+      }
     })
   ],
   module: {
@@ -62,7 +68,8 @@ var webpackConfig = {
     inject: 'head',
     historyApiFallback: true,
     entry: 'app',
-    port: 5000
+    port: 5000,
+    headers: { "Access-Control-Allow-Origin": "*" }
   },
   postcss: function () {
     return [cssnext];
