@@ -1,7 +1,4 @@
 
-// this will be empty string for prod, http://localhost:3000 for dev
-const apiUrl = boggled.env.API_URL;
-
 class App {
 
   init() {
@@ -22,8 +19,21 @@ class App {
   }
 
   sendBoggleBoardToServer(board) {
+
+    // this will be empty string for prod, http://localhost:3000 for dev
+    // TODO: having issues in tests with this, it is defined by
+    // webpack, which is NOT in pipeline when running jasmin specs
+    const apiUrl = boggled.env.API_URL;
+
     console.log('contents of textarea: ', board);
-    fetch(apiUrl + '/api/users')
+    fetch(apiUrl + '/api/parse_scoring_words', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify([['A','B','C'],['A','B','C'],['A','B','C']])
+      })
       .then(function(response) {
         console.log('raw response from server: ', response);
         return response.text()
