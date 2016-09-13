@@ -3,6 +3,8 @@
 // even though it most defeinitely changes global vars
 require('babel-polyfill');
 
+require('whatwg-fetch');
+
 var boggled = {};
 boggled.App = require('./app.js').default;
 boggled.app = new boggled.App();
