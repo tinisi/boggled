@@ -1,0 +1,15 @@
+version: '2'
+services:
+  api:
+    image: tinisi/boggled-api:latest
+    command: npm start
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=develop
+  app:
+      image: tinisi/boggled-app:latest
+      ports:
+        - "80:80"
+      links:
+        - "api"
