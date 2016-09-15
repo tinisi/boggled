@@ -17,6 +17,8 @@ class BoggleForm {
     this.root = this.parentEl.querySelector('#app');
     this.goButton = this.parentEl.querySelector('#get-scoring-words');
     this.boggleBoard = this.parentEl.querySelector('#boggle-board');
+    this.boardSizeField = this.parentEl.querySelector('#board-size');
+    this.minWordLengthField = this.parentEl.querySelector('#min-word-length');
     this.scoringWordsContainer = this.parentEl.querySelector('#scoring-words');
 
     // get some css for this components (ditto here, ideally this would be in same folder)
@@ -25,7 +27,7 @@ class BoggleForm {
     // set up a listener to fire the xhr request
     let self = this;
     let goHandler = function(e) {
-      self.sendBoggleBoardToServer(self.boggleBoard.value);
+      self.sendBoggleBoardToServer(self.boggleBoard.value, self.boardSizeField.value, self.minWordLengthField.value);
     }
     this.goButton.addEventListener('click', goHandler);
 
@@ -45,12 +47,15 @@ class BoggleForm {
 
   }
 
-  sendBoggleBoardToServer(board) {
+  sendBoggleBoardToServer(board, boardSize, minWordLength) {
 
     // this will be empty string for prod, http://localhost:3000 for dev
     // TODO: having issues in tests with this, it is defined by
     // webpack, which is NOT in pipeline when running jasmin specs
     const apiUrl = boggled.env.API_URL;
+
+    boardSize = boardSize || 4;
+    minWordLength = minWordLength || 3;
 
     let self = this;
     fetch(apiUrl + '/api/parse_scoring_words', {
@@ -59,31 +64,42 @@ class BoggleForm {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(parseTextArea(board))
+        body: JSON.stringify({
+          boardSize,
+          minWordLength,
+          matrix: parseTextArea(board)
+        })
       })
       .then(function(response) {
         return response.text()
       }).then(function(body) {
+        console.log(body);
         let parsedBody = JSON.parse(body);
         self.displayResults(parsedBody);
       });
   }
 
-  displayResults(scoringWords) {
+  displayResults(results) {
     // first wipe out whatever was in there
     this.scoringWordsContainer.innerHTML = '';
-    // and if there are any scoring words, display them
-    if ( scoringWords.length ) {
-      let list = document.createElement('ul');
-      for ( let word of scoringWords ) {
-        let item = document.createElement('li');
-        item.innerHTML = word;
-        list.appendChild(item);
-      }
-      this.scoringWordsContainer.appendChild(list);  
+    // we might get a validation error back from the server as a string
+    // so if the results are NOT an array, we'll assume it is an error message
+    if ( results.error ) {
+      this.scoringWordsContainer.innerHTML = results.error;
     } else {
-      this.scoringWordsContainer.innerHTML = 'No scoring words found!';
-    }
+      // if there are any scoring words, display them
+      if ( results.length ) {
+        let list = document.createElement('ul');
+        for ( let word of results ) {
+          let item = document.createElement('li');
+          item.innerHTML = word;
+          list.appendChild(item);
+        }
+        this.scoringWordsContainer.appendChild(list);  
+      } else {
+        this.scoringWordsContainer.innerHTML = 'No scoring words found!';
+      }
+    }   
   }
 
 }
