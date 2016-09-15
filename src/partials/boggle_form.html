@@ -1,9 +1,12 @@
 <div id="boogle-form">
 	<p>OK, the only disclaimer this time is performance!</p>
 	<p>I did not have the time to implement a trie dictionary lookup, so much unnecesary walking of a matrix is happening.</p>
-	<p>So, to make this more fun to demo I made it possible to select a smaller board, 3 x 3 is quick enough to be reasonable.</p>
-	<strong>Board Size: </strong><input id="board-size" type="text" />
-	<strong>Min Word Length: </strong><input id="min-word-length" type="text" />
+	<p>So, to make this more fun to demo I made it possible to select a smaller board, 3 x 3 is quick enough to be reasonable.<p>
+	<p>Change the board size to 4 at your own risk...could be in the range of four to five minutes.</p>
+	<div>
+		<strong>Board Size: </strong><input id="board-size" type="text" /><br>
+		<strong>Min Word Length: </strong><input id="min-word-length" type="text" />
+	</div>
 	<textarea id="boggle-board" class="board"></textarea>
 	<div>
 		<button id="get-scoring-words" class="button">Get Scoring Words</button>

@@ -57,6 +57,9 @@ class BoggleForm {
     boardSize = boardSize || 4;
     minWordLength = minWordLength || 3;
 
+    this.goButton.disabled = true;
+    this.scoringWordsContainer.innerHTML = 'Please wait, request is being processed on the server...';
+
     let self = this;
     fetch(apiUrl + '/api/parse_scoring_words', {
         method: 'POST',
@@ -74,6 +77,7 @@ class BoggleForm {
         return response.text()
       }).then(function(body) {
         console.log(body);
+        self.goButton.disabled = false;
         let parsedBody = JSON.parse(body);
         self.displayResults(parsedBody);
       });
@@ -110,7 +114,7 @@ class BoggleForm {
 // into an array of arrays, ready to be sent to server
 function parseTextArea(text) {
   let matrix = [];
-  let lines = text.split(/[\r\n]/gm);
+  let lines = text.trim().split(/[\r\n]/gm);
   for ( let line of lines ) {
     // remove all other whitespace
     let cleanedLine = line.replace(/\s/g, '');
